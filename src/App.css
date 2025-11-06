@@ -1,0 +1,33 @@
+#root {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 100vh;
+}
+
+* {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+    sans-serif;
+}
+
+.page-content {
+  max-width: 1200px;
+  width: 100%;
+  flex: 1;
+  padding: 60px 20px;
+  box-sizing: border-box;
+}
+
+.main-content {
+  margin-top: 20px;
+}
+
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
