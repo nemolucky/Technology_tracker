@@ -16,7 +16,7 @@ function ProgressHeader({ countOfTechnology, completedTechnologies, percentCompl
 
   return (
     <header className="progress-header">
-      <h1 className="progress-header__title">⚙️ Technology Tracker</h1>
+      <h1 className="progress-header__title">Technology Tracker</h1>
       
       <div className="progress-header__content">
         <div className="progress-header__stats">
