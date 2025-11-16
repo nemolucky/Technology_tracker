@@ -1,0 +1,100 @@
+.notes-section {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.notes-section:hover {
+  background: #f1f3f5;
+  border-color: #ced4da;
+}
+
+.notes-section__title {
+  margin: 0 0 12px 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.notes-section__textarea {
+  width: 95%;
+  padding: 12px;
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #495057;
+  background: white;
+  resize: vertical;
+  min-height: 80px;
+  transition: all 0.2s ease;
+}
+
+.notes-section__textarea:focus {
+  outline: none;
+  border-color: #4dabf7;
+  box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.1);
+  background: #fafdff;
+}
+
+.notes-section__textarea::placeholder {
+  color: #adb5bd;
+  font-style: italic;
+}
+
+.notes-section__hint {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+
+.notes-section__hint--active {
+  color: #28a745;
+  font-weight: 500;
+}
+
+/* Анимация появления подсказки */
+.notes-section__hint--active {
+  animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Стили для разных состояний */
+.notes-section:has(.notes-section__textarea:focus) {
+  border-color: #4dabf7;
+  background: #f8fbff;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .notes-section {
+    padding: 12px;
+    margin-top: 12px;
+  }
+  
+  .notes-section__textarea {
+    padding: 10px;
+    font-size: 16px; /* Убираем zoom на iOS */
+  }
+}
