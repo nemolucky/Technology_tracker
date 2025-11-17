@@ -1,12 +1,12 @@
-import type { MouseEventHandler } from "react";
+import { useState, type MouseEventHandler } from "react";
 import TechnologyNotes from "../TechnologyNotes/TechonologyNotes";
 import { type Technology } from "../../hooks/useTechnologies";
 import "./TechnologyCard.css";
 
 interface TechnologyCardProps {
-  technology: Technology; 
-  onStatusChange: (id: number) => void; 
-  onNotesChange: (id: number, notes: string) => void; 
+  technology: Technology;
+  onStatusChange: (id: number) => void;
+  onNotesChange: (id: number, notes: string) => void;
   isSelected?: boolean;
   className?: string;
 }
@@ -30,9 +30,15 @@ function TechnologyCard({
   isSelected,
   className = "",
 }: TechnologyCardProps) {
+  const [isNotesCompact, setIsNotesCompact] = useState(true);
 
   const handleCardClick: MouseEventHandler<HTMLDivElement> = () => {
     onStatusChange(technology.id);
+  };
+
+  const handleToggleNotesStyle: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation(); 
+    setIsNotesCompact(!isNotesCompact);
   };
 
   return (
@@ -74,10 +80,23 @@ function TechnologyCard({
       {/* Описание */}
       <p className="technology-card__description">{technology.description}</p>
 
+      {/* Кнопка переключения стиля заметок */}
+      <div className="technology-card__notes-controls">
+        <button
+          type="button"
+          className="technology-card__toggle-notes"
+          onClick={handleToggleNotesStyle}
+          title={isNotesCompact ? "Расширить заметки" : "Свернуть заметки"}
+        >
+          {isNotesCompact ? "📝 Развернуть" : "📋 Свернуть"}
+        </button>
+      </div>
+
       {/* Заметки (внутри карточки) */}
       <TechnologyNotes
         notes={technology.notes}
         onNotesChange={(newNotes) => onNotesChange(technology.id, newNotes)}
+        isCompact={isNotesCompact}
       />
     </div>
   );

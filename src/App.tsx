@@ -70,6 +70,7 @@ function App() {
             chooseRandom={handleRandomSelect}
             changeAllStatusToCompleted={handleMarkAllCompleted}
             resetAllStatus={handleResetAll}
+            technologies={technologies}
           />
         </div>
 

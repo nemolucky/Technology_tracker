@@ -198,3 +198,61 @@
   font-weight: 600;
 }
 
+/* TechnologyCard.css - добавим стили для кнопки переключения */
+.technology-card__notes-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+  margin-bottom: 4px;
+}
+
+.technology-card__toggle-notes {
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.technology-card__toggle-notes:hover {
+  background: #5a6268;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.technology-card__toggle-notes:active {
+  transform: translateY(0);
+}
+
+/* Стили для разных статусов карточки */
+.technology-card.completed .technology-card__toggle-notes {
+  background: #28a745;
+}
+
+.technology-card.completed .technology-card__toggle-notes:hover {
+  background: #218838;
+}
+
+.technology-card.in-progress .technology-card__toggle-notes {
+  background: #ffc107;
+  color: #212529;
+}
+
+.technology-card.in-progress .technology-card__toggle-notes:hover {
+  background: #e0a800;
+}
+
+.technology-card.not-started .technology-card__toggle-notes {
+  background: #6c757d;
+}
+
+.technology-card.not-started .technology-card__toggle-notes:hover {
+  background: #5a6268;
+}
