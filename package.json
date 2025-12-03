@@ -3,6 +3,7 @@
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
+	"homepage": "https://nemolucky.github.io/technology_tracker",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",

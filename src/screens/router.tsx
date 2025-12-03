@@ -34,7 +34,7 @@ const AppRouter = () => {
 	}
 
 	return (
-		<Router>
+		<Router basename='/technology_tracker'>
 			<Header user={user} onLogout={handleLogout} />
 			<Routes>
 				<Route path='/' element={<Home />} />
