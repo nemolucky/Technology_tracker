@@ -17,4 +17,5 @@ export interface Film {
 	slogan?: string
 	filmLength?: number
 	genres?: Genre[]
+	deadline?: string | null
 }

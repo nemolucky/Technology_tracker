@@ -1,5 +1,5 @@
 import { type Film } from '@/types/film.interface'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useFilms } from '../../../hooks/useFilm'
 import styles from './ImportFilms.module.css'
 

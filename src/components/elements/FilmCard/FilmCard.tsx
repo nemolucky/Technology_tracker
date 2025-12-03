@@ -11,9 +11,19 @@ type Props = {
 	film: Film
 	updateFilm: (filmId: number, updatedProperties: Partial<Film>) => void
 	isHighlighted?: boolean
+	isSelected: boolean
+	onSelectFilm: (filmId: number, isSelected: boolean) => void
+	onEdit: (film: Film) => void
 }
 
-const FilmCard: FC<Props> = ({ film, updateFilm, isHighlighted = false }) => {
+const FilmCard: FC<Props> = ({
+	film,
+	updateFilm,
+	isHighlighted = false,
+	isSelected,
+	onSelectFilm,
+	onEdit,
+}) => {
 	const [notes, setNotes] = useState(film.notes)
 	const [isClicked, setIsClicked] = useState(false)
 	const [details, setDetails] = useState<{
@@ -74,6 +84,16 @@ const FilmCard: FC<Props> = ({ film, updateFilm, isHighlighted = false }) => {
 		}
 	}
 
+	const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		e.stopPropagation()
+		onSelectFilm(film.kinopoiskId, e.target.checked)
+	}
+
+	const handleEditClick = (e: React.MouseEvent) => {
+		e.stopPropagation()
+		onEdit(film)
+	}
+
 	useEffect(() => {
 		if (isClicked) {
 			const timer = setTimeout(() => setIsClicked(false), 300) // Duration of the animation
@@ -83,7 +103,9 @@ const FilmCard: FC<Props> = ({ film, updateFilm, isHighlighted = false }) => {
 
 	const cardClasses = `${styles.filmCard} ${
 		styles[`status_${film.status.replace('-', '')}`]
-	} ${isClicked ? styles.pulse : ''} ${isHighlighted ? styles.highlighted : ''}`
+	} ${isClicked ? styles.pulse : ''} ${
+		isHighlighted ? styles.highlighted : ''
+	} ${isSelected ? styles.selected : ''}`
 
 	const statusTextClasses = `${styles.status} ${
 		styles[`status_text_${film.status.replace('-', '')}`]
@@ -95,6 +117,17 @@ const FilmCard: FC<Props> = ({ film, updateFilm, isHighlighted = false }) => {
 			className={cardClasses}
 			onClick={handleCardClick}
 		>
+			<div
+				className={styles.selectionCheckbox}
+				onClick={e => e.stopPropagation()}
+			>
+				<input
+					type='checkbox'
+					checked={isSelected}
+					onChange={handleCheckboxChange}
+					aria-label={`Выбрать фильм ${film.nameRu}`}
+				/>
+			</div>
 			<button
 				className={`${styles.favoriteButton} ${
 					film.isFavorite ? styles.favoriteActive : ''
@@ -156,9 +189,14 @@ const FilmCard: FC<Props> = ({ film, updateFilm, isHighlighted = false }) => {
 						placeholder='Ваши заметки...'
 						className={styles.notesTextarea}
 					/>
-					<button onClick={handleSaveNotes} className={styles.saveButton}>
-						Сохранить заметки
-					</button>
+					<div className={styles.cardButtons}>
+						<button onClick={handleSaveNotes} className={styles.saveButton}>
+							Сохранить заметки
+						</button>
+						<button onClick={handleEditClick} className={styles.editButton}>
+							Редактировать
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>

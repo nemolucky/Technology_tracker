@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { fetchFilms } from '../service/filmService'
-import { type Film } from '../types/film.interface'
+import { type Film, type TStatus } from '../types/film.interface'
 import { useLocalStorage } from './useLocalStorage'
 
 export const useFilms = (page: number = 1) => {
@@ -61,8 +61,6 @@ export const useFilms = (page: number = 1) => {
 		setFilms(updatedFilms)
 	}, [films, setFilms])
 
-
-
 	const resetAllStatuses = useCallback(() => {
 		const updatedFilms: Film[] = films.map(film => ({
 			...film,
@@ -70,6 +68,19 @@ export const useFilms = (page: number = 1) => {
 		}))
 		setFilms(updatedFilms)
 	}, [films, setFilms])
+
+	const updateMultipleFilmStatuses = useCallback(
+		(filmIds: number[], status: TStatus) => {
+			const updatedFilms = films.map(film => {
+				if (filmIds.includes(film.kinopoiskId)) {
+					return { ...film, status }
+				}
+				return film
+			})
+			setFilms(updatedFilms)
+		},
+		[films, setFilms]
+	)
 
 	return {
 		films,
@@ -79,6 +90,7 @@ export const useFilms = (page: number = 1) => {
 		addFilms,
 		markAllAsViewed,
 		resetAllStatuses,
+		updateMultipleFilmStatuses,
 		isEmpty: films?.length === 0 && !loading,
 	}
 }

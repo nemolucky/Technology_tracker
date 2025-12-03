@@ -26,6 +26,32 @@
 	border-color: #4285f4;
 }
 
+.selected {
+	border-color: #4285f4;
+	box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.4);
+}
+
+.selectionCheckbox {
+	position: absolute;
+	top: 16px;
+	left: 16px;
+	z-index: 11;
+	background-color: rgba(255, 255, 255, 0.8);
+	border-radius: 50%;
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.selectionCheckbox input {
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+
+
 /* Status-based border colors */
 .status_notstarted {
 	border-color: #9ca3af;
@@ -200,21 +226,39 @@
 	min-height: 80px;
 }
 
-.saveButton {
+.cardButtons {
+	display: flex;
+	gap: 10px;
 	align-self: flex-end;
+}
+
+.saveButton,
+.editButton {
 	padding: 8px 16px;
 	font-size: 1.2rem;
 	font-weight: 600;
 	border: none;
 	border-radius: 6px;
-	background-color: #007bff;
-	color: white;
 	cursor: pointer;
 	transition: background-color 0.2s ease;
 }
 
+.saveButton {
+	background-color: #007bff;
+	color: white;
+}
+
 .saveButton:hover {
 	background-color: #0056b3;
+}
+
+.editButton {
+	background-color: #6c757d;
+	color: white;
+}
+
+.editButton:hover {
+	background-color: #5a6268;
 }
 
 .details {
@@ -323,7 +367,8 @@
 		font-size: 0.9rem;
 	}
 
-	.saveButton {
+	.saveButton,
+	.editButton {
 		padding: 6px 12px;
 		font-size: 0.8rem;
 	}

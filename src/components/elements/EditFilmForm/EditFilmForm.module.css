@@ -1,0 +1,87 @@
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	padding: 10px;
+}
+
+.form h2 {
+	margin: 0;
+	font-size: 1.8rem;
+	text-align: center;
+	color: #1e293b;
+}
+
+.formGroup {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.formGroup label {
+	font-size: 1rem;
+	font-weight: 600;
+	color: #374151;
+}
+
+.formGroup input,
+.formGroup textarea {
+	padding: 10px 12px;
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+	font-size: 1rem;
+	font-family: inherit;
+}
+
+.formGroup input:focus,
+.formGroup textarea:focus {
+	outline: none;
+	border-color: #4285f4;
+	box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+}
+
+.error {
+	color: #e53e3e;
+	font-size: 0.9rem;
+	font-weight: 500;
+}
+
+.buttonGroup {
+	margin-top: 10px;
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+}
+
+.buttonGroup button {
+	padding: 10px 20px;
+	border: none;
+	border-radius: 8px;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.buttonGroup button[type='submit'] {
+	background-color: #007bff;
+	color: white;
+}
+
+.buttonGroup button[type='submit']:hover {
+	background-color: #0056b3;
+}
+
+.buttonGroup button[type='submit']:disabled {
+	background-color: #a0c3ff;
+	cursor: not-allowed;
+}
+
+.buttonGroup button[type='button'] {
+	background-color: #6c757d;
+	color: white;
+}
+
+.buttonGroup button[type='button']:hover {
+	background-color: #5a6268;
+}

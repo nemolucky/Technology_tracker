@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import { type Film } from '@/types/film.interface'
+import { useEffect } from 'react'
 import { useFilms } from '../../../hooks/useFilm'
 import FilmCard from '../FilmCard/FilmCard'
 import styles from './FilmsList.module.css'
@@ -7,12 +8,18 @@ type Props = {
 	selectedFilters: string[]
 	highlightedFilmId: number | null
 	searchQuery: string
+	selectedFilmIds: number[]
+	onSelectFilm: (filmId: number, isSelected: boolean) => void
+	onEdit: (film: Film) => void
 }
 
 const FilmsList: React.FC<Props> = ({
 	selectedFilters,
 	highlightedFilmId,
 	searchQuery,
+	selectedFilmIds,
+	onSelectFilm,
+	onEdit,
 }) => {
 	const { films, loading, error, updateFilm } = useFilms()
 
@@ -56,6 +63,9 @@ const FilmsList: React.FC<Props> = ({
 					film={film}
 					updateFilm={updateFilm}
 					isHighlighted={film.kinopoiskId === highlightedFilmId}
+					isSelected={selectedFilmIds.includes(film.kinopoiskId)}
+					onSelectFilm={onSelectFilm}
+					onEdit={onEdit}
 				/>
 			))}
 		</div>
