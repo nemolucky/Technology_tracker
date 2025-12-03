@@ -1,5 +1,5 @@
+import { type FC } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
-import { FC } from 'react'
 
 interface User {
 	id: number

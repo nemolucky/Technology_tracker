@@ -1,4 +1,4 @@
-import React, { type FC } from 'react'
+import { type FC } from 'react'
 import styles from './QuickActions.module.css'
 
 type Props = {
@@ -19,7 +19,9 @@ const QuickActions: FC<Props> = ({
 			<h2 className={styles.title}>Быстрые действия</h2>
 			<div className={styles.buttons}>
 				<button onClick={onSelectNext}>Выбрать следующий фильм</button>
-				<button onClick={onMarkAllViewed}>Отметить все как просмотренные</button>
+				<button onClick={onMarkAllViewed}>
+					Отметить все как просмотренные
+				</button>
 				<button onClick={onResetAll}>Сбросить все статусы</button>
 				<button onClick={onExport}>Экспорт данных</button>
 			</div>

@@ -1,4 +1,4 @@
-import React, { useState, type FC, ChangeEvent } from 'react'
+import { useState, type ChangeEvent, type FC } from 'react'
 import styles from './SearchField.module.css'
 
 type Props = {
