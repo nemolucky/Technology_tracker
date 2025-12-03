@@ -1,0 +1,35 @@
+.importContainer {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.importContainer h3 {
+	font-size: 1.5rem;
+	color: #1e293b;
+	margin: 0;
+}
+
+.importContainer p {
+	font-size: 1rem;
+	color: #4a5568;
+	margin: 0;
+}
+
+.fileInput {
+	font-size: 1rem;
+	padding: 10px;
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+	background-color: #f9fafb;
+}
+
+.loading {
+	font-style: italic;
+	color: #4a5568;
+}
+
+.error {
+	color: #dc3545;
+	font-weight: 600;
+}

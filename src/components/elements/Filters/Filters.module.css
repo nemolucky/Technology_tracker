@@ -1,0 +1,116 @@
+.filters {
+	flex: 0 0 300px; /* Prevents stretching and sets a fixed width */
+	display: flex;
+	flex-direction: column;
+	gap: 20px; /* Increased gap */
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
+	border-radius: 16px;
+	padding: 25px; /* Increased padding */
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	transition: all 0.3s ease;
+	height: fit-content;
+}
+
+.filters:hover {
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+		0 4px 6px -2px rgba(0, 0, 0, 0.06);
+	transform: translateY(-2px);
+}
+
+.title {
+	font-size: 2rem; /* Increased font-size */
+	font-weight: 600;
+	color: #1e293b;
+	margin: 0 0 15px 0; /* Adjusted margin */
+	text-align: center;
+}
+
+.items {
+	display: flex;
+	flex-direction: column;
+	gap: 15px; /* Increased gap */
+}
+
+.button {
+	padding: 15px 20px; /* Increased padding */
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+	font-size: 1.4rem; /* Increased font-size */
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	text-align: center;
+	background-color: #f9fafb;
+	color: #374151;
+}
+
+.button:hover:not(.active) {
+	background-color: #f3f4f6;
+	border-color: #9ca3af;
+}
+
+.active {
+	color: white;
+	border-color: transparent;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.reset {
+	color: white;
+	background-color: #4b5563;
+	border-color: transparent;
+}
+.reset:hover {
+	background-color: #1f2937;
+}
+
+/* Colors for active filters */
+.active.notstarted {
+	background-color: #9ca3af; /* Gray for Not Started */
+}
+
+.active.inprogress {
+	background-color: #f59e0b; /* Amber for In Progress */
+}
+
+.active.viewed {
+	background-color: #10b981; /* Green for Viewed */
+}
+
+@media (max-width: 992px) {
+	.filters {
+		flex: 1 1 100%;
+		width: 100%;
+	}
+}
+
+@media (max-width: 768px) {
+	.filters {
+		padding: 20px;
+	}
+
+	.items {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 10px;
+	}
+
+	.button {
+		flex: 1 1 auto;
+		padding: 12px 16px;
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.items {
+		flex-direction: column;
+	}
+
+	.button {
+		width: 100%;
+		text-align: center;
+	}
+}

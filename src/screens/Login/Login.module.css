@@ -1,0 +1,109 @@
+.loginPage {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	background-color: #f0f2f5;
+	padding: 20px;
+}
+
+.loginPage h1 {
+	font-size: 2.5rem;
+	color: #333;
+	margin-bottom: 30px;
+}
+
+.loginForm {
+	background: #ffffff;
+	padding: 40px;
+	border-radius: 12px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 100%;
+	max-width: 400px;
+}
+
+.formGroup {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.formGroup label {
+	font-size: 1rem;
+	color: #555;
+	font-weight: 600;
+}
+
+.formGroup input {
+	padding: 12px 15px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	font-size: 1rem;
+	transition: border-color 0.2s ease;
+}
+
+.formGroup input:focus {
+	outline: none;
+	border-color: #007bff;
+	box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.loginForm button {
+	padding: 12px 20px;
+	background-color: #007bff;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	font-size: 1.1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.loginForm button:hover {
+	background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+	.loginPage h1 {
+		font-size: 2rem;
+	}
+
+	.loginForm {
+		padding: 30px;
+		gap: 15px;
+	}
+
+	.formGroup input,
+	.loginForm button {
+		padding: 10px 12px;
+		font-size: 0.95rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.loginPage h1 {
+		font-size: 1.8rem;
+		margin-bottom: 20px;
+	}
+
+	.loginForm {
+		padding: 20px;
+		gap: 10px;
+	}
+
+	.formGroup label {
+		font-size: 0.9rem;
+	}
+
+	.formGroup input,
+	.loginForm button {
+		padding: 8px 10px;
+		font-size: 0.9rem;
+	}
+}

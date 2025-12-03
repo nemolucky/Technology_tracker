@@ -1,0 +1,45 @@
+[
+  {
+    "kinopoiskId": 1000001,
+    "nameRu": "Новый Фантастический Фильм",
+    "posterUrl": "https://kinopoiskapiunofficial.tech/images/posters/kp/1.jpg",
+    "ratingKinopoisk": 8.5,
+    "description": "Увлекательное приключение в неизведанных мирах.",
+    "countries": ["США", "Канада"],
+    "year": 2023,
+    "status": "not-started",
+    "isFavorite": false,
+    "notes": "",
+    "slogan": "Приключения ждут!",
+    "filmLength": 120,
+    "genres": [{"genre": "фантастика"}, {"genre": "приключения"}]
+  },
+  {
+    "kinopoiskId": 1000002,
+    "nameRu": "Загадочный Детектив",
+    "posterUrl": "https://kinopoiskapiunofficial.tech/images/posters/kp/2.jpg",
+    "ratingKinopoisk": 7.9,
+    "description": "Раскройте тайну вместе с лучшим детективом города.",
+    "countries": ["Великобритания"],
+    "year": 2022,
+    "status": "in-progress",
+    "isFavorite": true,
+    "notes": "Надо досмотреть. Очень интригует сюжет.",
+    "filmLength": 95,
+    "genres": [{"genre": "детектив"}, {"genre": "триллер"}]
+  },
+  {
+    "kinopoiskId": 1000003,
+    "nameRu": "Комедия Положений",
+    "posterUrl": "https://kinopoiskapiunofficial.tech/images/posters/kp/3.jpg",
+    "ratingKinopoisk": 6.8,
+    "description": "Смешная история о нелепых ситуациях.",
+    "countries": ["Франция"],
+    "year": 2024,
+    "status": "not-started",
+    "isFavorite": false,
+    "notes": "",
+    "filmLength": 105,
+    "genres": [{"genre": "комедия"}]
+  }
+]

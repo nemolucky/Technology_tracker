@@ -1,0 +1,52 @@
+.container {
+	max-width: 1800px;
+	margin: 40px auto;
+	padding: 140px 40px;
+}
+
+.content {
+	display: flex;
+	flex-direction: row;
+	gap: 40px;
+	align-items: flex-start;
+}
+
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+	flex: 0 0 300px; /* Same width as the Filters component */
+}
+
+@media (max-width: 992px) {
+	.container {
+		padding: 100px 20px;
+	}
+	.content {
+		flex-direction: column;
+	}
+	.sidebar {
+		flex: 1 1 100%;
+		width: 100%;
+	}
+}
+
+@media (max-width: 768px) {
+	.container {
+		padding: 160px 20px 20px;
+	}
+}
+
+@media (max-width: 480px) {
+	.container {
+		padding: 180px 10px 10px;
+	}
+
+	.content {
+		gap: 20px;
+	}
+
+	.sidebar {
+		gap: 20px;
+	}
+}

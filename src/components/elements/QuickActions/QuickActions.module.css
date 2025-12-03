@@ -1,0 +1,80 @@
+.quickActions {
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
+	border-radius: 16px;
+	padding: 25px; /* Increased padding */
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	margin-bottom: 30px;
+}
+
+.title {
+	font-size: 2rem; /* Increased font-size */
+	font-weight: 600;
+	color: #1e293b;
+	margin: 0 0 20px 0; /* Adjusted margin */
+	text-align: center;
+}
+
+.buttons {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	gap: 15px; /* Increased gap */
+}
+
+.buttons button {
+	padding: 15px 20px; /* Increased padding */
+	border: 1px solid #d1d5db;
+	border-radius: 8px;
+	font-size: 1.4rem; /* Increased font-size */
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	background-color: #f9fafb;
+	color: #374151;
+}
+
+.buttons button:hover {
+	background-color: #f3f4f6;
+	border-color: #9ca3af;
+}
+
+@media (max-width: 768px) {
+	.quickActions {
+		padding: 20px;
+	}
+
+	.title {
+		font-size: 1.8rem;
+	}
+
+	.buttons {
+		gap: 10px;
+	}
+
+	.buttons button {
+		padding: 12px 15px;
+		font-size: 1rem;
+	}
+}
+
+@media (max-width: 480px) {
+	.quickActions {
+		padding: 15px;
+	}
+
+	.title {
+		font-size: 1.6rem;
+		margin-bottom: 15px;
+	}
+
+	.buttons {
+		grid-template-columns: 1fr;
+		gap: 10px;
+	}
+
+	.buttons button {
+		padding: 12px;
+		font-size: 1rem;
+		text-align: center;
+	}
+}

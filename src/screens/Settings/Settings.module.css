@@ -1,0 +1,156 @@
+.settingsPage {
+	padding: 180px 40px 40px; /* Adjust padding for fixed header */
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+}
+
+.settingsPage h1 {
+	font-size: 3rem;
+	color: #1a1a1a;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.section {
+	background: #ffffff;
+	border: 1px solid #e2e8f0;
+	border-radius: 16px;
+	padding: 30px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.section h2 {
+	font-size: 2rem;
+	color: #1e293b;
+	margin-bottom: 10px;
+	border-bottom: 2px solid #f0f2f5;
+	padding-bottom: 10px;
+}
+
+.section p {
+	font-size: 1rem;
+	color: #4a5568;
+	line-height: 1.6;
+}
+
+.buttonGroup {
+	display: flex;
+	gap: 15px;
+	flex-wrap: wrap;
+}
+
+.button {
+	padding: 12px 20px;
+	border: none;
+	border-radius: 8px;
+	font-size: 1rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.2s ease, transform 0.1s ease;
+	min-width: 150px;
+	text-align: center;
+}
+
+.button:hover {
+	transform: translateY(-2px);
+}
+
+.primaryButton {
+	background-color: #007bff;
+	color: white;
+}
+
+.primaryButton:hover {
+	background-color: #0056b3;
+}
+
+.dangerButton {
+	background-color: #dc3545;
+	color: white;
+}
+
+.dangerButton:hover {
+	background-color: #c82333;
+}
+
+.secondaryButton {
+	background-color: #6c757d;
+	color: white;
+}
+
+.secondaryButton:hover {
+	background-color: #5a6268;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+	.settingsPage {
+		padding: 140px 20px 20px;
+		gap: 30px;
+	}
+
+	.settingsPage h1 {
+		font-size: 2.5rem;
+	}
+
+	.section {
+		padding: 25px;
+		gap: 15px;
+	}
+
+	.section h2 {
+		font-size: 1.8rem;
+		margin-bottom: 8px;
+	}
+
+	.section p {
+		font-size: 0.95rem;
+	}
+
+	.buttonGroup {
+		flex-direction: column;
+	}
+
+	.button {
+		width: 100%;
+		min-width: unset;
+	}
+}
+
+@media (max-width: 480px) {
+	.settingsPage {
+		padding: 120px 15px 15px;
+		gap: 20px;
+	}
+
+	.settingsPage h1 {
+		font-size: 2rem;
+		margin-bottom: 15px;
+	}
+
+	.section {
+		padding: 20px;
+		gap: 12px;
+	}
+
+	.section h2 {
+		font-size: 1.5rem;
+		margin-bottom: 5px;
+		padding-bottom: 8px;
+	}
+
+	.section p {
+		font-size: 0.9rem;
+	}
+
+	.button {
+		padding: 10px 15px;
+		font-size: 0.9rem;
+	}
+}

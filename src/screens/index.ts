@@ -1,0 +1,4 @@
+export { default as Home } from '@screens/Home/Home'
+export { default as Settings } from '@screens/Settings/Settings'
+export { default as Statistics } from '@screens/Statistics/Statistics'
+export { default as Login } from '@screens/Login/Login'
