@@ -1,6 +1,15 @@
+import { Brightness4, Brightness7 } from '@mui/icons-material'
+import {
+	AppBar,
+	Box,
+	Button,
+	IconButton,
+	Toolbar,
+	Typography,
+	useTheme,
+} from '@mui/material'
 import type { FC } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import styles from './Header.module.css'
 
 interface User {
 	id: number
@@ -10,75 +19,82 @@ interface User {
 type Props = {
 	user: User | null
 	onLogout?: () => void
+	toggleTheme: () => void
 }
 
-const Header: FC<Props> = ({ user, onLogout }) => {
+const Header: FC<Props> = ({ user, onLogout, toggleTheme }) => {
+	const theme = useTheme()
 	const location = useLocation()
-	const activePage = location.pathname.split('/')[2] // e.g., 'settings' or 'statistics'
+
+	const getActiveStyle = (path: string) => {
+		return location.pathname === path
+			? { textDecoration: 'underline', fontWeight: 'bold' }
+			: {}
+	}
 
 	return (
-		<header className={styles.header}>
-			<h1 className={styles.title}>FilmsTracker</h1>
-			<nav className={styles.nav}>
-				<ul>
-					<li>
-						<Link
-							to='/'
-							className={
-								location.pathname === '/' || location.pathname === '/home'
-									? styles.active
-									: ''
-							}
-						>
-							Главная
-						</Link>
-					</li>
+		<AppBar position='fixed'>
+			<Toolbar>
+				<Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
+					FilmsTracker
+				</Typography>
+				<Box component='nav' sx={{ display: { xs: 'none', sm: 'block' } }}>
+					<Button
+						component={Link}
+						to='/'
+						sx={{ color: '#fff', ...getActiveStyle('/') }}
+					>
+						Главная
+					</Button>
 					{user && (
 						<>
-							<li>
-								<Link
-									to={`/user/${user.id}/statistics`}
-									className={activePage === 'statistics' ? styles.active : ''}
-								>
-									Статистика
-								</Link>
-							</li>
-							<li>
-								<Link
-									to={`/user/${user.id}/settings`}
-									className={activePage === 'settings' ? styles.active : ''}
-								>
-									Настройки
-								</Link>
-							</li>
+							<Button
+								component={Link}
+								to={`/user/${user.id}/dashboard`}
+								sx={{
+									color: '#fff',
+									...getActiveStyle(`/user/${user.id}/dashboard`),
+								}}
+							>
+								Статистика
+							</Button>
+
+							<Button
+								component={Link}
+								to={`/user/${user.id}/settings`}
+								sx={{
+									color: '#fff',
+									...getActiveStyle(`/user/${user.id}/settings`),
+								}}
+							>
+								Настройки
+							</Button>
 						</>
 					)}
+				</Box>
+				<Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
+					<IconButton sx={{ ml: 1 }} onClick={toggleTheme} color='inherit'>
+						{theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+					</IconButton>
 					{user ? (
 						<>
-							<li>
-								<span className={styles.username}>
-									Привет, {user.username}!
-								</span>
-							</li>
-							<li>
-								<button onClick={onLogout} className={styles.logoutButton}>
-									Выйти
-								</button>
-							</li>
+							<Typography sx={{ p: 1 }}>Привет, {user.username}!</Typography>
+							<Button color='inherit' onClick={onLogout}>
+								Выйти
+							</Button>
 						</>
 					) : (
-						<li>
-							<Link
-								to='/login'
-								className={location.pathname === '/login' ? styles.active : ''}
-							>
-								Войти
-							</Link>
-						</li>
+						<Button
+							component={Link}
+							to='/login'
+							sx={{ color: '#fff', ...getActiveStyle('/login') }}
+						>
+							Войти
+						</Button>
 					)}
-				</ul>
-			</nav>
-		</header>
+				</Box>
+			</Toolbar>
+		</AppBar>
 	)
 }
 

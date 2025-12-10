@@ -1,26 +1,32 @@
+import { useNotification } from '@/context/NotificationContext'
 import { type Film } from '@/types/film.interface'
 import { useState } from 'react'
 import { useFilms } from '../../../hooks/useFilm'
-import styles from './ImportFilms.module.css'
+import {
+	Paper,
+	Typography,
+	Button,
+	Box,
+	CircularProgress,
+} from '@mui/material'
 
 const ImportFilms: React.FC = () => {
 	const { addFilms } = useFilms()
+	const { showNotification } = useNotification()
 	const [isImporting, setIsImporting] = useState(false)
-	const [error, setError] = useState<string | null>(null)
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0]
 		if (!file) return
 
 		setIsImporting(true)
-		setError(null)
 
 		const reader = new FileReader()
 		reader.onload = async e => {
 			try {
 				const content = e.target?.result
 				if (typeof content !== 'string') {
-					throw new Error('Failed to read file content.')
+					throw new Error('Не удалось прочитать содержимое файла.')
 				}
 				const filmsToImport: Film[] = JSON.parse(content)
 
@@ -30,24 +36,28 @@ const ImportFilms: React.FC = () => {
 					!filmsToImport.every(film => film.kinopoiskId && film.nameRu)
 				) {
 					throw new Error(
-						'Invalid JSON format or missing required film properties.'
+						'Неверный формат JSON или отсутствуют необходимые свойства фильма.'
 					)
 				}
 
 				await addFilms(filmsToImport)
-				alert(`Successfully imported ${filmsToImport.length} films!`)
+				showNotification(
+					`Успешно импортировано ${filmsToImport.length} фильмов!`,
+					'success'
+				)
 			} catch (err) {
 				const errorMessage =
-					err instanceof Error ? err.message : 'An unknown error occurred.'
-				setError(`Import failed: ${errorMessage}`)
-				alert(`Import failed: ${errorMessage}`)
+					err instanceof Error ? err.message : 'Произошла неизвестная ошибка.'
+				showNotification(`Ошибка импорта: ${errorMessage}`, 'error')
 			} finally {
 				setIsImporting(false)
+				// Clear the file input value to allow re-uploading the same file
+				event.target.value = ''
 			}
 		}
 
 		reader.onerror = () => {
-			setError('Failed to read file.')
+			showNotification('Не удалось прочитать файл.', 'error')
 			setIsImporting(false)
 		}
 
@@ -55,19 +65,30 @@ const ImportFilms: React.FC = () => {
 	}
 
 	return (
-		<div className={styles.importContainer}>
-			<h3>Импорт фильмов из JSON</h3>
-			<p>Выберите JSON-файл со списком фильмов для добавления.</p>
-			<input
-				type='file'
-				accept='.json'
-				onChange={handleFileChange}
-				disabled={isImporting}
-				className={styles.fileInput}
-			/>
-			{isImporting && <p className={styles.loading}>Импорт...</p>}
-			{error && <p className={styles.error}>{error}</p>}
-		</div>
+		<Paper elevation={2} sx={{ p: 2 }}>
+			<Typography variant='h6' component='h3' sx={{ mb: 1 }}>
+				Импорт фильмов из JSON
+			</Typography>
+			<Typography variant='body2' color='text.secondary' sx={{ mb: 2 }}>
+				Выберите JSON-файл со списком фильмов для добавления.
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+				<Button
+					variant='contained'
+					component='label'
+					disabled={isImporting}
+				>
+					Выбрать файл
+					<input
+						type='file'
+						hidden
+						accept='.json'
+						onChange={handleFileChange}
+					/>
+				</Button>
+				{isImporting && <CircularProgress size={24} />}
+			</Box>
+		</Paper>
 	)
 }
 

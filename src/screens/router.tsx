@@ -1,15 +1,20 @@
-import { Route, BrowserRouter as Router, Routes, Navigate } from 'react-router-dom'
-import { Home, Settings, Statistics, Login } from './index'
 import ProtectedRoute from '@components/ProtectedRoute/ProtectedRoute'
-import { useState, useEffect } from 'react'
 import Header from '@components/ui/Header/Header'
+import { useEffect, useState } from 'react'
+import {
+	Navigate,
+	Route,
+	BrowserRouter as Router,
+	Routes,
+} from 'react-router-dom'
+import { Dashboard, Home, Login, Settings } from './index'
 
 interface User {
 	id: number
 	username: string
 }
 
-const AppRouter = () => {
+const AppRouter = ({ toggleTheme }: { toggleTheme: () => void }) => {
 	const [user, setUser] = useState<User | null>(null)
 
 	useEffect(() => {
@@ -35,19 +40,20 @@ const AppRouter = () => {
 
 	return (
 		<Router basename='/technology_tracker'>
-			<Header user={user} onLogout={handleLogout} />
+			<Header user={user} onLogout={handleLogout} toggleTheme={toggleTheme} />
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/home' element={<Home />} />
 				<Route path='/login' element={<Login onLogin={handleLogin} />} />
 				<Route
-					path='/user/:userId/statistics'
+					path='/user/:userId/dashboard'
 					element={
 						<ProtectedRoute user={user}>
-							<Statistics />
+							<Dashboard />
 						</ProtectedRoute>
 					}
 				/>
+
 				<Route
 					path='/user/:userId/settings'
 					element={
@@ -58,10 +64,10 @@ const AppRouter = () => {
 				/>
 				{/* Redirect from old paths for convenience */}
 				<Route
-					path='/statistics'
+					path='/dashboard'
 					element={
 						user ? (
-							<Navigate to={`/user/${user.id}/statistics`} replace />
+							<Navigate to={`/user/${user.id}/dashboard`} replace />
 						) : (
 							<Navigate to='/login' replace />
 						)

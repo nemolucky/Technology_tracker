@@ -1,6 +1,6 @@
 import { type Film } from '@/types/film.interface'
+import { Box, Button, TextField, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
-import styles from './EditFilmForm.module.css'
 
 type Props = {
 	film: Film
@@ -35,6 +35,7 @@ const EditFilmForm: React.FC<Props> = ({ film, onSave, onCancel }) => {
 
 	useEffect(() => {
 		validate()
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [formData])
 
 	const handleChange = (
@@ -55,62 +56,59 @@ const EditFilmForm: React.FC<Props> = ({ film, onSave, onCancel }) => {
 	}
 
 	return (
-		<form onSubmit={handleSubmit} className={styles.form}>
-			<h2>Редактировать фильм</h2>
-			<div className={styles.formGroup}>
-				<label htmlFor='nameRu'>Название</label>
-				<input
-					id='nameRu'
-					name='nameRu'
-					type='text'
-					value={formData.nameRu}
-					onChange={handleChange}
-					aria-required='true'
-					aria-invalid={!!errors.nameRu}
-					aria-describedby={errors.nameRu ? 'nameRu-error' : undefined}
-				/>
-				{errors.nameRu && (
-					<span id='nameRu-error' className={styles.error} role='alert'>
-						{errors.nameRu}
-					</span>
-				)}
-			</div>
-			<div className={styles.formGroup}>
-				<label htmlFor='description'>Описание</label>
-				<textarea
-					id='description'
-					name='description'
-					value={formData.description}
-					onChange={handleChange}
-					rows={5}
-				/>
-			</div>
-			<div className={styles.formGroup}>
-				<label htmlFor='deadline'>Дедлайн просмотра</label>
-				<input
-					id='deadline'
-					name='deadline'
-					type='date'
-					value={formData.deadline}
-					onChange={handleChange}
-					aria-invalid={!!errors.deadline}
-					aria-describedby={errors.deadline ? 'deadline-error' : undefined}
-				/>
-				{errors.deadline && (
-					<span id='deadline-error' className={styles.error} role='alert'>
-						{errors.deadline}
-					</span>
-				)}
-			</div>
-			<div className={styles.buttonGroup}>
-				<button type='submit' disabled={Object.keys(errors).length > 0}>
+		<Box component='form' onSubmit={handleSubmit} sx={{ p: 2 }}>
+			<Typography variant='h5' component='h2' sx={{ mb: 2 }}>
+				Редактировать фильм
+			</Typography>
+			<TextField
+				fullWidth
+				margin='normal'
+				id='nameRu'
+				name='nameRu'
+				label='Название'
+				value={formData.nameRu}
+				onChange={handleChange}
+				error={!!errors.nameRu}
+				helperText={errors.nameRu}
+				required
+			/>
+			<TextField
+				fullWidth
+				margin='normal'
+				id='description'
+				name='description'
+				label='Описание'
+				multiline
+				rows={4}
+				value={formData.description}
+				onChange={handleChange}
+			/>
+			<TextField
+				fullWidth
+				margin='normal'
+				id='deadline'
+				name='deadline'
+				label='Дедлайн просмотра'
+				type='date'
+				value={formData.deadline}
+				onChange={handleChange}
+				error={!!errors.deadline}
+				helperText={errors.deadline}
+				InputLabelProps={{
+					shrink: true,
+				}}
+			/>
+			<Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end', gap: 1 }}>
+				<Button onClick={onCancel}>Отмена</Button>
+				<Button
+					type='submit'
+					variant='contained'
+					disabled={Object.keys(errors).length > 0}
+				>
 					Сохранить
-				</button>
-				<button type='button' onClick={onCancel}>
-					Отмена
-				</button>
-			</div>
-		</form>
+				</Button>
+			</Box>
+		</Box>
 	)
 }
 

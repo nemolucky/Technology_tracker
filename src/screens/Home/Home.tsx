@@ -9,8 +9,8 @@ import { useFilms } from '@/hooks/useFilm'
 import { useFilters } from '@/hooks/useFilters'
 import { useQuickActions } from '@/hooks/useQuickActions'
 import type { Film, TStatus } from '@/types/film.interface'
+import { Box, Container } from '@mui/material'
 import { useEffect, useState } from 'react'
-import styles from './Home.module.css'
 
 const Home = () => {
 	const [searchQuery, setSearchQuery] = useState('')
@@ -93,9 +93,22 @@ const Home = () => {
 
 	return (
 		<>
-			<div className={styles.container}>
-				<div className={styles.content}>
-					<div className={styles.sidebar}>
+			<Container maxWidth='xl' sx={{ mt: 12, mb: 4 }}>
+				<Box
+					sx={{
+						display: 'flex',
+						flexDirection: { xs: 'column', md: 'row' },
+						gap: 4,
+					}}
+				>
+					<Box
+						sx={{
+							width: { xs: '100%', md: 300 },
+							display: 'flex',
+							flexDirection: 'column',
+							gap: 3,
+						}}
+					>
 						<SearchField onSearch={handleSearch} />
 						<Filters
 							selectedFilters={selectedFilters}
@@ -108,17 +121,19 @@ const Home = () => {
 							onResetAll={handleResetAllStatuses}
 							onExport={exportData}
 						/>
-					</div>
-					<FilmsList
-						selectedFilters={selectedFilters}
-						highlightedFilmId={highlightedFilmId}
-						searchQuery={debouncedSearchQuery}
-						selectedFilmIds={selectedFilmIds}
-						onSelectFilm={handleSelectFilm}
-						onEdit={handleEdit}
-					/>
-				</div>
-			</div>
+					</Box>
+					<Box sx={{ flex: 1 }}>
+						<FilmsList
+							selectedFilters={selectedFilters}
+							highlightedFilmId={highlightedFilmId}
+							searchQuery={debouncedSearchQuery}
+							selectedFilmIds={selectedFilmIds}
+							onSelectFilm={handleSelectFilm}
+							onEdit={handleEdit}
+						/>
+					</Box>
+				</Box>
+			</Container>
 			{selectedFilmIds.length > 0 && (
 				<BulkActions
 					selectedCount={selectedFilmIds.length}

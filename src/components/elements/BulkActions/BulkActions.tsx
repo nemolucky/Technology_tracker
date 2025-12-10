@@ -1,6 +1,6 @@
 import { type TStatus } from '@/types/film.interface'
+import { Paper, Typography, Button, Box } from '@mui/material'
 import React from 'react'
-import styles from './BulkActions.module.css'
 
 type Props = {
 	selectedCount: number
@@ -14,35 +14,56 @@ const BulkActions: React.FC<Props> = ({
 	onClearSelection,
 }) => {
 	return (
-		<div className={styles.bulkActions}>
-			<div className={styles.selectionInfo}>
+		<Paper
+			elevation={4}
+			sx={{
+				position: 'fixed',
+				bottom: 20,
+				left: '50%',
+				transform: 'translateX(-50%)',
+				zIndex: 1001,
+				p: 2,
+				display: 'flex',
+				alignItems: 'center',
+				gap: 2,
+			}}
+		>
+			<Typography variant='body1'>
 				Выбрано: <strong>{selectedCount}</strong>
-			</div>
-			<div className={styles.actions}>
-				<span>Изменить статус на:</span>
-				<button
+			</Typography>
+			<Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+				<Typography variant='body2'>Изменить статус на:</Typography>
+				<Button
+					size='small'
+					variant='contained'
 					onClick={() => onUpdateStatus('not-started')}
-					className={styles.button}
 				>
 					Не просмотрено
-				</button>
-				<button
+				</Button>
+				<Button
+					size='small'
+					variant='contained'
 					onClick={() => onUpdateStatus('in-progress')}
-					className={styles.button}
 				>
 					В процессе
-				</button>
-				<button
+				</Button>
+				<Button
+					size='small'
+					variant='contained'
 					onClick={() => onUpdateStatus('viewed')}
-					className={styles.button}
 				>
 					Просмотрено
-				</button>
-			</div>
-			<button onClick={onClearSelection} className={styles.clearButton}>
+				</Button>
+			</Box>
+			<Button
+				size='small'
+				variant='outlined'
+				color='error'
+				onClick={onClearSelection}
+			>
 				Снять выделение
-			</button>
-		</div>
+			</Button>
+		</Paper>
 	)
 }
 

@@ -2,7 +2,7 @@ import { type Film } from '@/types/film.interface'
 import { useEffect } from 'react'
 import { useFilms } from '../../../hooks/useFilm'
 import FilmCard from '../FilmCard/FilmCard'
-import styles from './FilmsList.module.css'
+import { Box, Typography, CircularProgress } from '@mui/material'
 
 type Props = {
 	selectedFilters: string[]
@@ -32,8 +32,21 @@ const FilmsList: React.FC<Props> = ({
 		}
 	}, [highlightedFilmId])
 
-	if (loading) return <div className={styles.loading}>Loading films...</div>
-	if (error) return <div className={styles.error}>Error: {error}</div>
+	if (loading) {
+		return (
+			<Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+				<CircularProgress />
+			</Box>
+		)
+	}
+
+	if (error) {
+		return (
+			<Typography color='error' sx={{ mt: 4 }}>
+				Error: {error}
+			</Typography>
+		)
+	}
 
 	const noPoster: string =
 		'https://kinopoiskapiunofficial.tech/images/posters/kp/no-poster.png'
@@ -52,11 +65,15 @@ const FilmsList: React.FC<Props> = ({
 		})
 
 	if (!filteredFilms.length) {
-		return <div className={styles.empty}>Фильмы не найдены</div>
+		return (
+			<Typography sx={{ mt: 4 }}>
+				Фильмы не найдены
+			</Typography>
+		)
 	}
 
 	return (
-		<div className={styles.films}>
+		<Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
 			{filteredFilms.map(film => (
 				<FilmCard
 					key={film.kinopoiskId}
@@ -68,7 +85,7 @@ const FilmsList: React.FC<Props> = ({
 					onEdit={onEdit}
 				/>
 			))}
-		</div>
+		</Box>
 	)
 }
 

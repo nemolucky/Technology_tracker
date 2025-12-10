@@ -1,5 +1,5 @@
+import { Paper, Typography, Button, Box } from '@mui/material'
 import { type FC } from 'react'
-import styles from './QuickActions.module.css'
 
 type Props = {
 	onSelectNext: () => void
@@ -15,17 +15,25 @@ const QuickActions: FC<Props> = ({
 	onExport,
 }) => {
 	return (
-		<div className={styles.quickActions}>
-			<h2 className={styles.title}>Быстрые действия</h2>
-			<div className={styles.buttons}>
-				<button onClick={onSelectNext}>Выбрать следующий фильм</button>
-				<button onClick={onMarkAllViewed}>
+		<Paper elevation={2} sx={{ p: 2 }}>
+			<Typography variant='h6' component='h2' sx={{ mb: 2 }}>
+				Быстрые действия
+			</Typography>
+			<Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+				<Button variant='contained' onClick={onSelectNext}>
+					Выбрать следующий фильм
+				</Button>
+				<Button variant='contained' onClick={onMarkAllViewed}>
 					Отметить все как просмотренные
-				</button>
-				<button onClick={onResetAll}>Сбросить все статусы</button>
-				<button onClick={onExport}>Экспорт данных</button>
-			</div>
-		</div>
+				</Button>
+				<Button variant='contained' onClick={onResetAll}>
+					Сбросить все статусы
+				</Button>
+				<Button variant='contained' onClick={onExport}>
+					Экспорт данных
+				</Button>
+			</Box>
+		</Paper>
 	)
 }
 

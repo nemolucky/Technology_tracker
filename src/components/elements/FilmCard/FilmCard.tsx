@@ -1,11 +1,24 @@
-import React, { useEffect, useState, type FC } from 'react'
+import {
+	Box,
+	Button,
+	Card,
+	CardActions,
+	CardContent,
+	CardMedia,
+	Checkbox,
+	Chip,
+	IconButton,
+	TextField,
+	Typography,
+} from '@mui/material'
+import React, { useState, type FC } from 'react'
 import {
 	type Film,
 	type TStatus,
 	type Genre,
 } from '../../../types/film.interface'
-import styles from './FilmCard.module.css'
 import { fetchFilmById } from '../../../service/filmService'
+import { Favorite, FavoriteBorder } from '@mui/icons-material'
 
 type Props = {
 	film: Film
@@ -16,6 +29,30 @@ type Props = {
 	onEdit: (film: Film) => void
 }
 
+const getStatusColor = (
+	status: TStatus
+): 'success' | 'warning' | 'default' => {
+	switch (status) {
+		case 'viewed':
+			return 'success'
+		case 'in-progress':
+			return 'warning'
+		default:
+			return 'default'
+	}
+}
+
+const getStatusText = (status: TStatus): string => {
+	switch (status) {
+		case 'viewed':
+			return 'Просмотрено'
+		case 'in-progress':
+			return 'В процессе'
+		default:
+			return 'Не просмотрено'
+	}
+}
+
 const FilmCard: FC<Props> = ({
 	film,
 	updateFilm,
@@ -24,8 +61,7 @@ const FilmCard: FC<Props> = ({
 	onSelectFilm,
 	onEdit,
 }) => {
-	const [notes, setNotes] = useState(film.notes)
-	const [isClicked, setIsClicked] = useState(false)
+	const [notes, setNotes] = useState(film.notes || '')
 	const [details, setDetails] = useState<{
 		slogan?: string
 		filmLength?: number
@@ -34,11 +70,6 @@ const FilmCard: FC<Props> = ({
 	const [isLoadingDetails, setIsLoadingDetails] = useState(false)
 
 	const statuses: TStatus[] = ['not-started', 'in-progress', 'viewed']
-	const statusLabels: Record<TStatus, string> = {
-		'not-started': 'Не просмотрено',
-		'in-progress': 'В процессе',
-		viewed: 'Просмотрено',
-	}
 
 	const handleFavoriteClick = (e: React.MouseEvent) => {
 		e.stopPropagation()
@@ -50,21 +81,11 @@ const FilmCard: FC<Props> = ({
 		const nextIndex = (currentIndex + 1) % statuses.length
 		const nextStatus = statuses[nextIndex]
 		updateFilm(film.kinopoiskId, { status: nextStatus })
-		setIsClicked(true)
-	}
-
-	const handleNotesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		e.stopPropagation()
-		setNotes(e.target.value)
 	}
 
 	const handleSaveNotes = (e: React.MouseEvent) => {
 		e.stopPropagation()
 		updateFilm(film.kinopoiskId, { notes })
-	}
-
-	const handleNotesClick = (e: React.MouseEvent) => {
-		e.stopPropagation()
 	}
 
 	const handleLoadDetails = async (e: React.MouseEvent) => {
@@ -94,112 +115,140 @@ const FilmCard: FC<Props> = ({
 		onEdit(film)
 	}
 
-	useEffect(() => {
-		if (isClicked) {
-			const timer = setTimeout(() => setIsClicked(false), 300) // Duration of the animation
-			return () => clearTimeout(timer)
-		}
-	}, [isClicked])
-
-	const cardClasses = `${styles.filmCard} ${
-		styles[`status_${film.status.replace('-', '')}`]
-	} ${isClicked ? styles.pulse : ''} ${
-		isHighlighted ? styles.highlighted : ''
-	} ${isSelected ? styles.selected : ''}`
-
-	const statusTextClasses = `${styles.status} ${
-		styles[`status_text_${film.status.replace('-', '')}`]
-	}`
+	const cardBorderColor =
+		getStatusColor(film.status) === 'success'
+			? 'green'
+			: getStatusColor(film.status) === 'warning'
+			? 'orange'
+			: '#ccc'
 
 	return (
-		<div
+		<Card
 			id={`film-card-${film.kinopoiskId}`}
-			className={cardClasses}
+			sx={{
+				display: 'flex',
+				flexDirection: { xs: 'column', md: 'row' },
+				mb: 2,
+				border: `2px solid ${cardBorderColor}`,
+				boxShadow: isHighlighted ? 3 : 1,
+				transform: isHighlighted ? 'scale(1.02)' : 'none',
+				transition: 'all 0.2s ease-in-out',
+				outline: isSelected ? '2px solid blue' : 'none',
+			}}
 			onClick={handleCardClick}
 		>
-			<div
-				className={styles.selectionCheckbox}
-				onClick={e => e.stopPropagation()}
-			>
-				<input
-					type='checkbox'
-					checked={isSelected}
-					onChange={handleCheckboxChange}
-					aria-label={`Выбрать фильм ${film.nameRu}`}
-				/>
-			</div>
-			<button
-				className={`${styles.favoriteButton} ${
-					film.isFavorite ? styles.favoriteActive : ''
-				}`}
-				onClick={handleFavoriteClick}
-				aria-label={
-					film.isFavorite ? 'Remove from favorites' : 'Add to favorites'
-				}
-			>
-				{film.isFavorite ? '❤️' : '🤍'}
-			</button>
-			<div className={styles.poster}>
-				<img
-					src={film.posterUrl}
+			<Box sx={{ position: 'relative', width: { xs: '100%', md: 250 } }}>
+				<CardMedia
+					component='img'
+					sx={{ height: '100%', objectFit: 'cover' }}
+					image={film.posterUrl}
 					alt={film.nameRu}
-					className={styles.posterImage}
 				/>
-			</div>
-			<div className={styles.info}>
-				<div className={styles.title}>{film.nameRu}</div>
-				<div className={styles.country}>
+				<Box sx={{ position: 'absolute', top: 8, left: 8 }}>
+					<Checkbox
+						checked={isSelected}
+						onChange={handleCheckboxChange}
+						onClick={e => e.stopPropagation()}
+						aria-label={`Выбрать фильм ${film.nameRu}`}
+						sx={{ backgroundColor: 'rgba(255,255,255,0.7)' }}
+					/>
+				</Box>
+				<Box sx={{ position: 'absolute', top: 8, right: 8 }}>
+					<IconButton
+						onClick={handleFavoriteClick}
+						aria-label={
+							film.isFavorite ? 'Remove from favorites' : 'Add to favorites'
+						}
+						sx={{ backgroundColor: 'rgba(255,255,255,0.7)' }}
+					>
+						{film.isFavorite ? <Favorite color='error' /> : <FavoriteBorder />}
+					</IconButton>
+				</Box>
+			</Box>
+			<CardContent sx={{ flex: 1, p: 2 }}>
+				<Typography variant='h5' component='h2' gutterBottom>
+					{film.nameRu}
+				</Typography>
+				<Typography variant='body2' color='text.secondary' gutterBottom>
 					Страна: {film.countries.map(c => c).join(', ')}
-				</div>
-				<div className={styles.rating}>Рейтинг: {film.ratingKinopoisk}</div>
-				<div className={statusTextClasses}>{statusLabels[film.status]}</div>
-				<div className={styles.description}>{film.description}</div>
+				</Typography>
+				<Typography variant='body2' color='text.secondary' gutterBottom>
+					Рейтинг: {film.ratingKinopoisk}
+				</Typography>
+				{film.deadline && (
+					<Chip
+						label={`Дедлайн: ${new Date(film.deadline).toLocaleDateString()}`}
+						color='error'
+						size='small'
+						sx={{ mb: 1 }}
+					/>
+				)}
+				<Chip
+					label={getStatusText(film.status)}
+					color={getStatusColor(film.status)}
+					size='small'
+					sx={{ mb: 1 }}
+				/>
+				<Typography variant='body2' sx={{ mt: 1, mb: 2 }}>
+					{film.description}
+				</Typography>
 				{details && (
-					<div className={styles.details}>
+					<Box sx={{ my: 2 }}>
 						{details.slogan && (
-							<div className={styles.slogan}>Слоган: {details.slogan}</div>
+							<Typography variant='caption' display='block' gutterBottom>
+								Слоган: {details.slogan}
+							</Typography>
 						)}
 						{details.filmLength && (
-							<div className={styles.filmLength}>
+							<Typography variant='caption' display='block' gutterBottom>
 								Продолжительность: {details.filmLength} мин.
-							</div>
+							</Typography>
 						)}
 						{details.genres && (
-							<div className={styles.genres}>
-								Жанры:{' '}
-								{details.genres.map(g => g.genre).join(', ')}
-							</div>
+							<Box sx={{ display: 'flex', gap: 0.5, flexWrap: 'wrap' }}>
+								{details.genres.map(g => (
+									<Chip key={g.genre} label={g.genre} size='small' />
+								))}
+							</Box>
 						)}
-					</div>
+					</Box>
 				)}
-				{isLoadingDetails && <div className={styles.loading}>Загрузка...</div>}
+				{isLoadingDetails && (
+					<Typography sx={{ my: 2 }}>Загрузка...</Typography>
+				)}
 				{!details && !isLoadingDetails && (
-					<button
-						onClick={handleLoadDetails}
-						className={styles.loadDetailsButton}
-					>
+					<Button onClick={handleLoadDetails} size='small' sx={{ my: 1 }}>
 						Загрузить больше информации
-					</button>
+					</Button>
 				)}
-				<div className={styles.notes} onClick={handleNotesClick}>
-					<h3 className={styles.notesTitle}>Мои заметки</h3>
-					<textarea
+				<Box sx={{ mt: 'auto' }}>
+					<TextField
+						label='Мои заметки'
+						multiline
+						rows={2}
+						fullWidth
 						value={notes}
-						onChange={handleNotesChange}
-						placeholder='Ваши заметки...'
-						className={styles.notesTextarea}
+						onChange={e => setNotes(e.target.value)}
+						onClick={e => e.stopPropagation()}
+						variant='outlined'
+						size='small'
+						sx={{ my: 2 }}
 					/>
-					<div className={styles.cardButtons}>
-						<button onClick={handleSaveNotes} className={styles.saveButton}>
+					<CardActions sx={{ justifyContent: 'flex-end' }}>
+						<Button
+							onClick={handleSaveNotes}
+							size='small'
+							variant='contained'
+						>
 							Сохранить заметки
-						</button>
-						<button onClick={handleEditClick} className={styles.editButton}>
+						</Button>
+						<Button onClick={handleEditClick} size='small' variant='outlined'>
 							Редактировать
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
+						</Button>
+					</CardActions>
+				</Box>
+			</CardContent>
+		</Card>
 	)
 }
 

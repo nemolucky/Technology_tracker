@@ -1,9 +1,19 @@
 import { useFilms } from '@/hooks/useFilm'
+import ExportFilms from '@/components/elements/ExportFilms/ExportFilms'
 import ImportFilms from '@components/elements/ImportFilms/ImportFilms'
-import styles from './Settings.module.css'
+import { useNotification } from '@/context/NotificationContext'
+import {
+	Container,
+	Paper,
+	Typography,
+	Button,
+	Box,
+	Divider,
+} from '@mui/material'
 
 const Settings = () => {
 	const { resetAllStatuses } = useFilms()
+	const { showNotification } = useNotification()
 
 	const handleClearLocalStorage = () => {
 		if (
@@ -12,8 +22,11 @@ const Settings = () => {
 			)
 		) {
 			localStorage.clear()
-			alert('Локальное хранилище очищено! Приложение будет перезагружено.')
-			window.location.reload()
+			showNotification(
+				'Локальное хранилище очищено! Приложение будет перезагружено.',
+				'success'
+			)
+			setTimeout(() => window.location.reload(), 2000)
 		}
 	}
 
@@ -22,7 +35,7 @@ const Settings = () => {
 			window.confirm('Вы уверены, что хотите сбросить статусы всех фильмов?')
 		) {
 			resetAllStatuses()
-			alert('Статусы всех фильмов сброшены!')
+			showNotification('Статусы всех фильмов сброшены!', 'success')
 		}
 	}
 
@@ -36,43 +49,53 @@ const Settings = () => {
 			}
 		}
 		console.log('------------------------------')
-		alert('Содержимое локального хранилища выведено в консоль разработчика.')
+		showNotification(
+			'Содержимое локального хранилища выведено в консоль разработчика.',
+			'info'
+		)
 	}
 
 	return (
-		<div className={styles.settingsPage}>
-			<section className={styles.section}>
-				<ImportFilms />
-			</section>
-
-			<section className={styles.section}>
-				<h2>Управление данными</h2>
-				<p>
-					Здесь вы можете управлять данными вашего приложения. Будьте осторожны,
-					некоторые действия необратимы.
-				</p>
-				<div className={styles.buttonGroup}>
-					<button
-						onClick={handleResetFilmStatuses}
-						className={`${styles.button} ${styles.primaryButton}`}
-					>
-						Сбросить статусы фильмов
-					</button>
-					<button
-						onClick={handleClearLocalStorage}
-						className={`${styles.button} ${styles.dangerButton}`}
-					>
-						Очистить все данные
-					</button>
-					<button
-						onClick={handlePrintLocalStorage}
-						className={`${styles.button} ${styles.secondaryButton}`}
-					>
-						Показать данные в консоли
-					</button>
-				</div>
-			</section>
-		</div>
+		<Container maxWidth='md' sx={{ mt: 12, mb: 4 }}>
+			<Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+				<Paper elevation={2} sx={{ p: 3 }}>
+					<ImportFilms />
+					<Divider sx={{ my: 3 }} />
+					<ExportFilms />
+				</Paper>
+				<Paper elevation={2} sx={{ p: 3 }}>
+					<Typography variant='h5' component='h2' sx={{ mb: 2 }}>
+						Управление данными
+					</Typography>
+					<Typography variant='body1' color='text.secondary' sx={{ mb: 3 }}>
+						Здесь вы можете управлять данными вашего приложения. Будьте
+						осторожны, некоторые действия необратимы.
+					</Typography>
+					<Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+						<Button
+							variant='contained'
+							onClick={handleResetFilmStatuses}
+						>
+							Сбросить статусы фильмов
+						</Button>
+						<Button
+							variant='outlined'
+							color='secondary'
+							onClick={handlePrintLocalStorage}
+						>
+							Показать данные в консоли
+						</Button>
+						<Button
+							variant='contained'
+							color='error'
+							onClick={handleClearLocalStorage}
+						>
+							Очистить все данные
+						</Button>
+					</Box>
+				</Paper>
+			</Box>
+		</Container>
 	)
 }
 

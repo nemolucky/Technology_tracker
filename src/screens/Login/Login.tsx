@@ -1,6 +1,14 @@
+import { useNotification } from '@/context/NotificationContext'
+import {
+	Container,
+	Paper,
+	Typography,
+	TextField,
+	Button,
+	Box,
+} from '@mui/material'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import styles from './Login.module.css'
 
 type Props = {
 	onLogin: (username: string) => void
@@ -10,6 +18,7 @@ function Login({ onLogin }: Props) {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const navigate = useNavigate()
+	const { showNotification } = useNotification()
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault()
@@ -19,36 +28,62 @@ function Login({ onLogin }: Props) {
 			onLogin(username)
 			navigate('/')
 		} else {
-			alert('Неверные данные для входа')
+			showNotification('Неверные данные для входа', 'error')
 		}
 	}
 
 	return (
-		<div className={styles.loginPage}>
-			<h1>Вход в систему</h1>
-			<form onSubmit={handleSubmit} className={styles.loginForm}>
-				<div className={styles.formGroup}>
-					<label>Имя пользователя:</label>
-					<input
-						type='text'
+		<Container
+			component='main'
+			maxWidth='xs'
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+				justifyContent: 'center',
+				minHeight: '100vh',
+			}}
+		>
+			<Paper elevation={3} sx={{ p: 4, mt: 8 }}>
+				<Typography component='h1' variant='h5' sx={{ mb: 2 }}>
+					Вход в систему
+				</Typography>
+				<Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+					<TextField
+						margin='normal'
+						required
+						fullWidth
+						id='username'
+						label='Имя пользователя'
+						name='username'
+						autoComplete='username'
+						autoFocus
 						value={username}
 						onChange={e => setUsername(e.target.value)}
-						required
 					/>
-				</div>
-
-				<div className={styles.formGroup}>
-					<label>Пароль:</label>
-					<input
+					<TextField
+						margin='normal'
+						required
+						fullWidth
+						name='password'
+						label='Пароль'
 						type='password'
+						id='password'
+						autoComplete='current-password'
 						value={password}
 						onChange={e => setPassword(e.target.value)}
-						required
 					/>
-				</div>
-				<button type='submit'>Войти</button>
-			</form>
-		</div>
+					<Button
+						type='submit'
+						fullWidth
+						variant='contained'
+						sx={{ mt: 3, mb: 2 }}
+					>
+						Войти
+					</Button>
+				</Box>
+			</Paper>
+		</Container>
 	)
 }
 

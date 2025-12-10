@@ -1,4 +1,10 @@
-import styles from './Filters.module.css'
+import {
+	Paper,
+	Typography,
+	Button,
+	ToggleButtonGroup,
+	ToggleButton,
+} from '@mui/material'
 
 type Props = {
 	selectedFilters: string[]
@@ -17,31 +23,52 @@ const Filters = ({
 		{ value: 'viewed', label: 'Просмотрено' },
 	]
 
+	const handleToggleButtonChange = (
+		newFilters: string[]
+	) => {
+		// This is a workaround to make ToggleButtonGroup work with our single-selection-at-a-time logic
+		const latestFilter = newFilters.find(f => !selectedFilters.includes(f))
+		if (latestFilter) {
+			handleFilterChange(latestFilter)
+		} else {
+			// When deselecting
+			const removedFilter = selectedFilters.find(f => !newFilters.includes(f))
+			if (removedFilter) {
+				handleFilterChange(removedFilter)
+			}
+		}
+	}
+
 	return (
-		<div className={styles.filters}>
-			<h2 className={styles.title}>Фильтры</h2>
-			<div className={styles.items}>
+		<Paper elevation={2} sx={{ p: 2 }}>
+			<Typography variant='h6' component='h2' sx={{ mb: 2 }}>
+				Фильтры
+			</Typography>
+			<ToggleButtonGroup
+				orientation='vertical'
+				value={selectedFilters}
+				onChange={(_e, newFilters) => handleToggleButtonChange(newFilters)}
+				fullWidth
+			>
 				{filters.map(filter => (
-					<button
+					<ToggleButton
 						key={filter.value}
-						className={`${styles.button} ${
-							selectedFilters.includes(filter.value) ? styles.active : ''
-						} ${styles[filter.value.replace('-', '').replace('-', '')] || ''}`}
-						onClick={() => handleFilterChange(filter.value)}
-						type='button'
+						value={filter.value}
+						aria-label={filter.label}
 					>
 						{filter.label}
-					</button>
+					</ToggleButton>
 				))}
-				<button
-					className={`${styles.button} ${styles.reset}`}
-					onClick={handleResetFilters}
-					type='button'
-				>
-					Сбросить все
-				</button>
-			</div>
-		</div>
+			</ToggleButtonGroup>
+			<Button
+				fullWidth
+				variant='outlined'
+				onClick={handleResetFilters}
+				sx={{ mt: 2 }}
+			>
+				Сбросить все
+			</Button>
+		</Paper>
 	)
 }
 

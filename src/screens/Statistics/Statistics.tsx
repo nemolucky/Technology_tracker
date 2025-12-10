@@ -1,5 +1,13 @@
 import { useFilms } from '@/hooks/useFilm'
-import styles from './Statistics.module.css'
+import {
+	Container,
+	Paper,
+	Typography,
+	Card,
+	CardContent,
+	LinearProgress,
+	Box,
+} from '@mui/material'
 
 const Statistics = () => {
 	const { films } = useFilms()
@@ -16,45 +24,76 @@ const Statistics = () => {
 	const completionPercentage =
 		totalFilms > 0 ? (completedFilms / totalFilms) * 100 : 0
 
-	return (
-		<div className={styles.statisticsPage}>
-			<section className={styles.section}>
-				<h2>Обзор прогресса</h2>
-				<div className={styles.statsGrid}>
-					<div className={styles.statCard}>
-						<h3>Всего фильмов</h3>
-						<p>{totalFilms}</p>
-					</div>
-					<div className={styles.statCard}>
-						<h3>Просмотрено</h3>
-						<p>{completedFilms}</p>
-					</div>
-					<div className={styles.statCard}>
-						<h3>В процессе</h3>
-						<p>{inProgressFilms}</p>
-					</div>
-					<div className={styles.statCard}>
-						<h3>Не просмотрено</h3>
-						<p>{notStartedFilms}</p>
-					</div>
-				</div>
-			</section>
+	const StatCard = ({ title, value }: { title: string; value: number }) => (
+		<Card>
+			<CardContent>
+				<Typography color='text.secondary' gutterBottom>
+					{title}
+				</Typography>
+				<Typography variant='h4' component='div'>
+					{value}
+				</Typography>
+			</CardContent>
+		</Card>
+	)
 
-			<section className={styles.section}>
-				<h2>Прогресс просмотра</h2>
-				<p>Общий процент завершения просмотра фильмов:</p>
-				<div className={styles.progressBarContainer}>
-					<div
-						className={styles.progressBarFill}
-						style={{ width: `${completionPercentage.toFixed(2)}%` }}
+	return (
+		<Container maxWidth='lg' sx={{ mt: 12, mb: 4 }}>
+			<Typography variant='h4' component='h1' gutterBottom>
+				Статистика
+			</Typography>
+			<Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+				<Paper elevation={2} sx={{ p: 3 }}>
+					<Typography variant='h5' component='h2' sx={{ mb: 2 }}>
+						Обзор прогресса
+					</Typography>
+					<Box
+						sx={{
+							display: 'flex',
+							flexWrap: 'wrap',
+							gap: 3,
+						}}
 					>
-						<div className={styles.progressBarText}>
-							{completionPercentage.toFixed(2)}%
-						</div>
-					</div>
-				</div>
-			</section>
-		</div>
+						<Box sx={{ flex: '1 1 200px' }}>
+							<StatCard title='Всего фильмов' value={totalFilms} />
+						</Box>
+						<Box sx={{ flex: '1 1 200px' }}>
+							<StatCard title='Просмотрено' value={completedFilms} />
+						</Box>
+						<Box sx={{ flex: '1 1 200px' }}>
+							<StatCard title='В процессе' value={inProgressFilms} />
+						</Box>
+						<Box sx={{ flex: '1 1 200px' }}>
+							<StatCard title='Не просмотрено' value={notStartedFilms} />
+						</Box>
+					</Box>
+				</Paper>
+
+				<Paper elevation={2} sx={{ p: 3 }}>
+					<Typography variant='h5' component='h2' sx={{ mb: 2 }}>
+						Прогресс просмотра
+					</Typography>
+					<Typography variant='body1' color='text.secondary' sx={{ mb: 2 }}>
+						Общий процент завершения просмотра фильмов:
+					</Typography>
+					<Box sx={{ display: 'flex', alignItems: 'center' }}>
+						<Box sx={{ width: '100%', mr: 1 }}>
+							<LinearProgress
+								variant='determinate'
+								value={completionPercentage}
+								sx={{ height: 20, borderRadius: 5 }}
+							/>
+						</Box>
+						<Box sx={{ minWidth: 35 }}>
+							<Typography
+								variant='body2'
+								color='text.secondary'
+							>{`${Math.round(completionPercentage)}%`}</Typography>
+						</Box>
+					</Box>
+				</Paper>
+			</Box>
+		</Container>
 	)
 }
 

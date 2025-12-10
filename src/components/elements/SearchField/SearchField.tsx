@@ -1,5 +1,5 @@
+import { Paper, TextField } from '@mui/material'
 import { useState, type ChangeEvent, type FC } from 'react'
-import styles from './SearchField.module.css'
 
 type Props = {
 	onSearch: (query: string) => void
@@ -15,15 +15,17 @@ const SearchField: FC<Props> = ({ onSearch }) => {
 	}
 
 	return (
-		<div className={styles.search}>
-			<input
+		<Paper elevation={2} sx={{ p: 2 }}>
+			<TextField
+				fullWidth
 				type='text'
 				value={query}
 				onChange={handleChange}
 				placeholder='Поиск по названию или описанию...'
-				className={styles.input}
+				variant='outlined'
+				label='Поиск'
 			/>
-		</div>
+		</Paper>
 	)
 }
 
